@@ -30,5 +30,7 @@ Version: 1.0
 5. Ativar o tema no Wordpress, no caso wp-admin
 
 6. Corrigir o caminho de style.css e outros caminhos de estilo
+```
 <?php echo get_stylesheet_directory_uri(); ?>
+```
 Esse função retorna o caminho até a pasta raiz do tema
