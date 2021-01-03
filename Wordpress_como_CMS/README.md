@@ -48,3 +48,5 @@ Nas páginas do site, carregar o header e o footer:
 <?php get_header(); ?> 
 <?php get_footer(); ?>
 ```
+
+8. Substituir as informações por [funções do Wordpress](https://codex.wordpress.org/Template_Tags)
