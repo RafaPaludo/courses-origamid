@@ -33,3 +33,18 @@ Version: 1.0
 ```
 <?php echo get_stylesheet_directory_uri(); ?>
 ```
+
+7. Separar o header e o footer em arquivos header.php e footer.php
+Antes de fechar o header, adicionar: 
+```
+<?php wp_head(); ?>
+```
+Antes de fechar o footer, adicionar: 
+```
+<?php wp_footer(); ?>
+```
+Nas páginas do site, carregar o header e o footer: 
+```
+<?php get_header(); ?> 
+<?php get_footer(); ?>
+```
