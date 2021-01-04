@@ -50,3 +50,22 @@ Nas páginas do site, carregar o header e o footer:
 ```
 
 8. Substituir as informações por [funções do Wordpress](https://codex.wordpress.org/Template_Tags)
+
+9. Adicionar as páginas na interface do wordpress
+
+10. Tranformar as páginas em templates de Páginas. A página index.php deve ter um conteúdo genérico. As demis páginas, devem ter o início com page- para faciltar a organização. Para transformar em template, é necessário adicionar o código abaixo ao início do arquivo .php:
+```
+<?php 
+// Template Name: Conteúdo
+?>
+```
+11. Adicionar o loop para a criação dos posts, conforme o código abaixo:
+```
+<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+<?php the_title(); ?>
+<?php the_content(); ?>
+<?php endwhile; else : ?>
+	<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
+<?php endif; ?>
+?>
+```
