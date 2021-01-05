@@ -73,6 +73,6 @@ Nas páginas do site, carregar o header e o footer:
 13. Repeatr field:
 ```
 <?php if (have_rows('nome_do_repeater')) : while(have_rows('nome_do_repeater')) : the_row(); ?>
-	the_sub_field('nome_do_campo');
+	<?php the_sub_field('nome_do_campo'); ?>
 <?php endwhile; else : endif;  ?>
 ```
