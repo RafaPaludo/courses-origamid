@@ -67,5 +67,12 @@ Nas páginas do site, carregar o header e o footer:
 <?php endwhile; else : ?>
 	<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
 <?php endif; ?>
-?>
+```
+12. Adicionar o plugin de customização de campos, [ACF](https://www.advancedcustomfields.com/) ou [CMB2](https://github.com/CMB2/CMB2) e trocar os conteúdos customizáveis para o clinte trocar via dashboard
+
+13. Repeatr field:
+```
+<?php if (have_rows('nome_do_repeater')) : while(have_rows('nome_do_repeater')) : the_row(); ?>
+	the_sub_field('nome_do_campo');
+<?php endwhile; else : endif;  ?>
 ```
