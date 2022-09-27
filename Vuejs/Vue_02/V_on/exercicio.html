@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- Lista todas as classes de personagens ao carregar a página -->
+        <ul>
+            <li v-for="charClasse in charClasses">
+                <a
+                    :href="charClasse.url"
+                    @click.prevent="fetchClassInfo(charClasse.index)"
+                >
+                    {{charClasse.name}}
+                </a>
+            </li>
+        </ul>
+        
+        <!-- Mostra as informações do personagem ao selecionar uma opção -->
+        <div v-if="classInfo">
+            <h4>Informações da classe de personagem:: </h4>
+            <p>Nome: {{ classInfo.name }}</p>
+            <p>Dados: 1d{{ classInfo.hit_die }}</p>
+            <p>Proficiência: {{classInfo.proficiency_choices[0].desc}}</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Prevenir o clique padrão nos elementos, fazer o fetch e mostrar apenas algumas informações
+        // https://www.dnd5eapi.co/api/
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                charClasses: [],
+                classInfo: null
+            },
+            methods: {
+                fetchClassInfo(className) {
+                    fetch(`https://www.dnd5eapi.co/api/classes/${className}`)
+                    .then( r => r.json() )
+                    .then( classInfo => this.classInfo = {...classInfo} )
+                }
+            },
+            created() {
+                fetch('https://www.dnd5eapi.co/api/classes')
+                .then(r => r.json() )
+                .then( classes => this.charClasses = classes.results )
+            }           
+        });
+    </script>
+</body>
+</html>

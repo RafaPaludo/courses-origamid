@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- Ao montar o componente puxa todas as classes de personagem e monta um select com cada classe. Ao mudar o select, atualiza o personagem selecionado e puxa os dados completos da classe -->
+        <p>
+            Todas as classes de D&D 5e: 
+            <span v-for="charClass in charClasses">
+                {{charClass.index}}
+                |
+            </span> 
+        </p>
+
+        <p>
+            Selecione uma classe de D&D 5e:
+            <select v-model="charClassSelected">
+                <option disabled value=""> Selecione uma classe</option>
+                <option v-for="charClass in charClasses" v-bind:value="charClass.name">
+                    {{charClass.name}}
+                </option>
+            </select>
+        </p>    
+        
+        <p>
+            Você selecionou: <b>{{charClassSelected}}</b>
+        </p>
+
+        <div v-if="charSelected">
+            <h4>Ficha do personagem:</h4>
+            <p v-html="charSelected"></p>    
+        </div>
+    </div>
+
+    <script>
+        // https://superheroapi.com/index.html
+        // https://www.dnd5eapi.co/
+
+        // https://superheroapi.com/api/access-token/character-id/appearance
+        // https://superheroapi.com/api/4902206026546653/4/appearance
+
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                charClasses: [],
+                charClassSelected: '',
+                charSelected: null
+            },
+            methods: {
+                getCharClasses () {
+                    fetch('https://www.dnd5eapi.co/api/classes/')
+                    .then( res => res.json() )
+                    .then( json => {
+                        this.charClasses = json.results
+                    } )
+                },
+                getCharClass (newChar) {
+                    fetch(`https://www.dnd5eapi.co/api/classes/${newChar}`)
+                    .then( res => res.json() )
+                    .then( json => {
+                        this.charSelected = json
+                    } )
+                }
+            },
+            created() {
+                this.getCharClasses()
+            },
+            watch: {
+                charClassSelected(newChar, oldChar) {
+                    const newCharNormalized = newChar.toLowerCase()
+                    this.getCharClass(newCharNormalized)
+                }
+            }
+        });
+
+
+    </script>
+</body>
+</html>

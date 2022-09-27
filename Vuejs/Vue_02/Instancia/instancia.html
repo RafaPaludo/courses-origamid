@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{animal}}
+        <br>
+        {{colorAnimal}}
+        <br>
+        {{showThis}}
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+
+        // Uma instância Vue é usar uma classe Vue com diversos métodos predefinidos para gerar um objeto novo. A partir dele que podemos manipular o seu conteúdo e o DOM:
+        function VueClone(options) {
+            this.options = options;
+            this.element = document.querySelector(options.el);
+            this.data = options.data;
+        }
+
+        const vmClone = new VueClone({
+            el: "#app",
+            data: {
+                animal: 'Tartaruga'
+            }
+        });
+
+        console.log(vmClone);
+
+
+        // Uma instância Vue é um objeto construído com a Classe Vue.
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                animal: "Baleia",
+                color: "azul"
+            },
+            computed: {
+                // O valor de 'this' faz referência ao próprio objeto que estamos criando. Por isso para acessar seus valores usamos this.valor;
+                colorAnimal() {
+                    return 'A ' + this.animal + ' é ' + this.color
+                },
+
+                // O contexto de this pode mudar. Para funções da window por exemplo, this pode representar um contexto externo da window:
+                showThis() {
+                    setTimeout( function() {
+                        console.log('%cThis do setTimeout com "function":', color, this)
+                    }, 1000)
+
+                    setTimeout( () => {
+                        console.log('%cThis do setTimeout com "() => ":', color, this)
+                    }, 1000)
+
+                    return
+                }
+            }
+        });
+        console.log(vm);
+    </script>
+</body>
+</html>

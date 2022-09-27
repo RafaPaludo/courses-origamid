@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- https://br.vuejs.org/v2/api/index.html#v-on -->
+        <!-- Diretiva para adicionar eventos e executar métodos como callback -->
+        <button @click="active = !active">Ativar / Desativar</button>
+        {{active}}
+        
+        <br><br>
+        <button @click="minus">- 1</button>
+        {{total}}
+        <button @click="plus">+ 1</button>
+        <br><br>
+
+        <!-- Algumas diretivas possuem modificadores -->
+        <a href="#footer" @click.prevent>Footer</a>
+
+        <br><br>
+        <input type="text" @keyup.enter="apply" v-model="textInput">
+
+        <div style="margin-top: 200vh; font-size: 40px; text-align: center; background-color: salmon;" id="footer">Footer</div>
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+        const vm = new Vue({
+           el: "#app",
+           data: {
+            active: true,
+            total: 0,
+            textInput: ''
+           },
+           methods: {
+            plus() {
+                this.total += 1
+            },
+            minus() {
+                this.total -= 1
+            },
+            apply() {
+                alert("Você digitou "+ this.textInput)
+            }
+           }
+        })
+    </script>
+</body>
+</html>
