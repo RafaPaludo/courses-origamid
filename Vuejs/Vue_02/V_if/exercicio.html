@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            Máximo de vida: {{ maxHp }}
+        </div>
+        <div>
+            Vida atual: {{actualHp}}
+        </div>
+        <div>
+            Dados de vida disponíveis: {{diceHpAvailable}}
+        </div>
+        <div>
+            Dado de vida: 1d{{hpDice}}
+        </div>
+
+        <button @click="throwHpDice(hpDice)">
+            Jogar Dado
+        </button>
+        <span v-if="diceHpAvailable === 0" style="color: rgb(255, 0, 55);">
+            Você não possui dados de vida disponíveis
+        </span>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                maxHp: 50,
+                actualHp: 10,
+                diceHpAvailable: 1,
+                hpDice: 6
+            },
+            methods: {
+                throwHpDice (hpDice) {
+                    if (!this.diceHpAvailable) {
+                        return
+                    }
+
+                    const result = Math.ceil(Math.random() * hpDice)
+                    console.log(result)
+                    this.actualHp += result
+                    this.diceHpAvailable -= 1
+                }
+            }
+        });
+    </script>
+</body>
+</html>

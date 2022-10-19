@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- Podemos usar v-if / v-if-else / v-else para elementos adjacentes.      Mostrando um ou outro dependendo da condição satisfeita 
+        -->
+        <div v-if="caster">É um caster</div>
+        <div v-else-if="halfCaster">É um meio caster</div>
+        <div v-else>Não é um caster</div>
+        <br><br><br>
+
+        <!-- Podemos também usar uma tag <template> para englobar diversos elementos e fazer a validação -->
+        <template v-if="caster">
+            <div>É um caster</div>
+            <span>🔥🔥🔥🔥</span>
+        </template>
+        <template v-else-if="halfCaster">
+            <div>É um meio caster</div>
+            <span>🔥🔥🗡️🗡️</span>
+        </template>
+        <template v-else>
+            <divx>Não é um caster</div>
+            <span>⚔️⚔️⚔️⚔️</span>
+        </template>
+
+        <!-- V-show é para remover um elemento com display:none -->
+        <div v-show="visibled">Isto está escondido, mas continua no DOM</div>
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+        const vm = new Vue({
+           el: "#app",
+           data () {
+            return {
+                char: 'BARD',
+                casters: ['mage', 'sorcerer', 'warlock'],
+                halfCasters: ['bard', 'druid'],
+                visibled: false
+            }
+           },
+           computed: {
+            caster () {
+                return this.isCaster(this.char)
+            },
+            halfCaster () {
+                return this.isHalfCaster(this.char)
+            }
+           },
+           methods: {
+            isCaster (charClass) {
+                const char = charClass.toLowerCase();
+                return this.casters.some((caster) => caster === char);
+            },
+            isHalfCaster (charClass) {
+                const char = charClass.toLowerCase();
+                return this.halfCasters.some((halfCaster) => halfCaster === char);
+            }
+           }
+        })
+    </script>
+</body>
+</html>
