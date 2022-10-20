@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- V-html e v-text substituem o conteúdo do elemento pelo valor passado! text renderiza texto e html renderiza um componente html inteiro. Cuidado para só fazer isso com variáveis conhecidas! -->
+
+        <span><b>V-html::</b></span>
+        <div v-html="link">Este texto será removido para colocar o conteúdo de link</div><br><br>
+
+        <span><b>V-text::</b></span>
+        <div v-text="link">Este texto será removido para colocar o conteúdo de link</div><br><br>
+
+        <span><b>Nenhum::</b></span>
+        <div>{{link}} esse texto se mantem!</div><br><br>
+
+        <span><b>V-once::</b></span>
+        <div>
+          Mostra um valor reativo ao criar o componente, e depois remove a sua reatividade 
+          <div v-once>initialValue com v-once: {{initialValue}}</div>
+          <div>initialValue sem v-once: {{initialValue}}</div>
+        </div>
+        <br><br>
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+        const vm = new Vue({
+          el: '#app',
+          data: {
+            link: '<a href="https://www.google.com">Google</a>',
+            initialValue: 0
+          },
+          methods: {
+            plus (e) {
+              this.initialValue += 1
+              setTimeout( () => {
+                this.plus()
+              }, 3000)
+            }
+          },
+          created () {
+            this.plus()
+          }
+        })
+    </script>
+</body>
+</html>
