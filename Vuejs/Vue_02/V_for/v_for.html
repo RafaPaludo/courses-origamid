@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- V-for é um loop em algum objeto iterável, como Array ou Objeto. Ele irá repetir o elemento onde for colocado.
+        Em arrays podemos acessar valor, index e em objetos podemos acessar valor, chave, index. Importante usar o :key para cada elemento ser possível trackear pelo Vuejs -->
+
+        <h3>V-for em uma Array:::</h3>
+        <ul>
+            <li v-for="(char, index) in chars" :key="index">
+                {{char}} é o {{ 1 + index}}° da lista
+            </li>
+        </ul>
+
+
+        <h3>V-for em um Objeto:::</h3>
+        <ul>
+            <li v-for="(value, key, index) in monsters" :key="index">
+                {{value.name}}
+                <a :href="value.url">Url</a>
+            </li>
+        </ul>
+
+        <h3>V-for em um Número:::</h3>
+        <span v-for="value in 5" :key="value"> | {{value}}</span>
+
+        <!-- Mudar valor de algum item não ativa a reatividade, somente algum método padrão que atualize o Array / Objeto, como pop(), push() ... Para mudar, usar $set(array, item, novoValor) -->
+        <h3>Reatividade em Array:::</h3>
+        <ul>
+            <li v-for="(char, index) in chars" :key="index">
+                {{char}}
+            </li>
+            <button @click="removeLastItem">Remover Item</button>
+            <button @click="changeFirstItem">Trocar Item</button> <!-- Não retivo -->
+            <button @click="changeFirstItemReactive">Trocar Item</button> <!-- Reativo -->
+        </ul>    
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+        const vm = new Vue({
+           el: "#app",
+           data: {
+            chars: ["Barbarian", "Bard", "Druid", "Monk", "Paladin", "Ranger"],
+            monsters: {
+                    a: {
+                        "index": "aboleth",
+                        "name": "Aboleth",
+                        "url": "/api/monsters/aboleth"
+                    },
+                    b: {
+                        "index": "baboon",
+                        "name": "Baboon",
+                        "url": "/api/monsters/baboon"
+                    },
+                    c: {
+                        "index": "cockatrice",
+                        "name": "Cockatrice",
+                        "url": "/api/monsters/cockatrice"
+                    }
+                }
+            },
+            methods: {
+                removeLastItem () {
+                    this.chars.pop()
+                },
+                changeFirstItem () {
+                    this.chars[0] = "👹 ORC!!!"
+                },
+                changeFirstItemReactive () {
+                    this.$set(this.chars, 0, "👹 ORC!!!")
+                }
+            }
+        })
+    </script>
+</body>
+</html>

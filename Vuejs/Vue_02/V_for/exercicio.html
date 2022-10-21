@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div v-for="( {index, name, url}, idx) in features">
+            Index: {{ index }}
+            Name: {{ name }}
+            <a :href="baseUrl+url" target="_blank">Url</a>
+        </div>
+    </div>
+
+    <script>
+        // https://www.dnd5eapi.co/
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                baseUrl: 'https://www.dnd5eapi.co',
+                features: []
+            },
+            methods: {
+                async fetchAPI () {
+                    const feature = await fetch('https://www.dnd5eapi.co/api/features/')
+                    const resp = await feature.json()
+                    this.features = await resp.results
+                }
+            },
+            created () {
+                this.fetchAPI()
+            }
+        });
+    </script>
+</body>
+</html>
