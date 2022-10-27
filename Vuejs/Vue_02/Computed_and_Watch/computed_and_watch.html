@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- Computed:: -->
+        <fieldset>
+            <legend>Computed</legend>
+            <h4 v-for="char in presentationChars">
+                {{char}}
+            </h4>
+        </fieldset>
+        
+        <!-- Watch::  -->
+        <fieldset>
+            <legend>Watch</legend>
+            <h4 :style="{backgroundColor: color, color: '#fff', padding: '12px'}">Cor Atual: {{color}}</h4>
+            <button @click="changeColor">Change Color</button>
+            <br>
+            <h4 :style="{backgroundColor: oldColor, color: '#fff', padding: '12px'}">Cor Anterior: {{oldColor}}</h4>
+        </fieldset>
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                chars: ["Barbarian", "Bard", "Mage", "Warlock", "Monk"],
+                charNames: ["Cron", "Bob Dylan", "Gendalf", "Ronaldinho", "Avatar Aang"],
+                color: "#4fc08d",
+                oldColor: ""
+            },
+            methods: {
+                changeColor () {
+                    return this.color = String('#' + Math.floor(Math.random()*16777215).toString(16));
+                }
+            },
+            // Computed serve para retornarmos algum valor de data já trabalhado com uma certa lógica. Para evitar repetir o código.
+            computed: {
+                presentationChars () {
+                    return this.chars.map( (char, index) => `O ${this.charNames[index]} é um ${char}`)
+                }
+            },
+            // Watch fica escutando uma propriedade, quando ela mudar, irá executar uma função, com o nome igual. Como argumentos, valor Novo e valor Antigo. Watch também funciona para funções assíncronas!
+            watch: {
+                color (newValue, oldValue) {
+                    console.log(newValue, oldValue)
+                    this.oldColor = oldValue
+                }
+            }
+        })
+    </script>
+</body>
+</html>

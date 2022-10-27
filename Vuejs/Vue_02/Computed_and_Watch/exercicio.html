@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-size: 18px;
+        }
+        .chars { padding: 16px; }
+        section {
+            padding: 16px;
+            border: 1px solid #cdcdcd;
+            border-right: none;
+            border-left: none;
+            margin: 20px 0;
+        }
+        .card {
+            background-color: #333;
+            border-radius: 4px;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            max-width: 200px;
+            margin: 8px;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card h4 {
+            color: #fff;
+        }
+        .card img {
+            border-radius: 4px;
+        }
+        .stats {
+            color: #fff;
+        }
+        .stats ul {
+            padding: 0 10px;
+        }
+        .stats ul li {
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Crie uma propriedade computed que retorne a classe e raça de um personagem -->
+        <div v-for="char in charCompleted" class="chars">
+            <span v-html="char"></span>
+        </div>
+
+
+        <!-- Fazer um fetch na api de super heroi, carrgar um no inicio e sempre que trocar o valor no select, mudar o card -->
+        <section>
+            <span>
+                Troque para mudar o personagem
+            </span>
+            <select name="superHeroes" id="superHeroes" v-model="heroSelected">
+                <option value="" v-for="superHeroId in superHeroIds" :value="superHeroId">
+                    {{superHeroId}}
+                </option>
+            </select>
+            <div v-if="superHero" class="card">
+                <h4>{{superHero.name}}</h4>
+                <img :src="superHero.image.url" width="150" height="150" :alt="superHero.name">
+                <div class="stats">Powerstats:
+                    <ul>
+                        <li v-for="(statsKey, statsValue) in superHero.powerstats" :key="statsKey + statsValue">
+                            {{statsValue}} : <b>{{statsKey}}</b>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // API: https://www.superheroapi.com/api.php/4902206026546653/id
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                chars: ["Barbarian", "Bard", "Mage", "Warlock", "Monk"],
+                charNames: ["Cron", "Bob Dylan", "Gendalf", "Ronaldinho", "Avatar Aang"],
+                superHeroIds: [1,2,3,4,5,6,7,8,9,10],
+                heroSelected: 1,
+                superHero: null
+            },
+            computed: {
+                charCompleted () {
+                    return this.chars.map( (char, index) => `O ${this.charNames[index]} é um <b>${char}<b/>`)
+                }
+            },
+            methods: {
+                async fetchSuperHeroApi (id) {
+                    const resp = await fetch('https://www.superheroapi.com/api.php/4902206026546653/' + id);
+                    const json = await resp.json();
+                    this.superHero = json;
+                }
+            },
+            watch: {
+                heroSelected (oldValue, newValue) {
+                    this.fetchSuperHeroApi(newValue);
+                }
+            },
+            created () {
+                this.fetchSuperHeroApi(6);
+            }
+        })
+    </script>
+</body>
+</html>
