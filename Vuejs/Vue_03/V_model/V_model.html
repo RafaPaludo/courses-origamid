@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- Two way data-bind, atualiza a variável tanto pelo JavaScript quanto pela DOM -->
+        <!-- Modificadores: lazy, trim, number -->
+        <fieldset>
+            <input type="text" v-model="text">
+            <p>
+                Texto digitado: {{text}}
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <textarea v-model="textArea"></textarea>
+            <p>
+                Texto digitado: {{textArea}}
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <input type="checkbox" id="sendEmail" v-model="sendEmail">
+            <label for="sendEmail">Enviar e-mail</label>        
+        </fieldset>
+
+        <fieldset>
+            <input type="radio" name="water" id="water" v-model="beverage" value="water">
+            <label for="water">Água</label>
+
+            <input type="radio" name="beer" id="beer" v-model="beverage" value="beer">
+            <label for="beer">Cerveja</label>
+
+            <input type="radio" name="juice" id="juice" v-model="beverage" value="juice">
+            <label for="juice">Suco</label>
+        </fieldset>
+        
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                text: '',
+                textArea: '',
+                sendEmail: true,
+                beverage: ''
+            }
+        })
+    </script>
+</body>
+</html>

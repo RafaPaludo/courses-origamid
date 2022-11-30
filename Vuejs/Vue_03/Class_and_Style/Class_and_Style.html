@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+    <style>
+        .cyan {
+            background-color: cyan;
+        }
+
+        .active {
+            background-color: aquamarine;
+        }
+        .white {
+            color: #fff;
+        }
+        .rounded {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p :class="bgColor">
+            Texto com classe ciano, fundo em ciano.
+        </p>
+        <p :class="{ active: isActive }">
+            Texto com classe ativa, fundo em aquamarine
+            <button @click="isActive = !isActive">Ativa / Desativa</button>
+        </p>
+        <p :class="[bgColor, textColor, rounded]">
+            Texto com várias classes
+        </p>
+        <p :style="{ backgroundColor: bgColor, fontSize: fontSize + 'px', padding: padding + 'px' }">
+            Texto com vários estilos inline
+        </p>
+        <button :style="styleButton">Botão</button>
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                bgColor: 'cyan',
+                isActive: true,
+                textColor: 'white',
+                rounded: 'rounded',
+                fontSize: 20,
+                padding: 16,
+                styleButton: {
+                    backgroundColor: 'salmon',
+                    fontSize: '1em',
+                    padding: '1em',
+                    borderRadius: '.5em',
+                    borderColor: 'salmon',
+                    cursor: 'pointer'
+                }
+            }
+        })
+    </script>
+</body>
+</html>
