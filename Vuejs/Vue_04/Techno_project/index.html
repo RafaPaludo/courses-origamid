@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techno</title>
+    <script src="./vue.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="logo">
+                {{store}}
+            </div>
+
+            <div class="cart">
+                R$ 0,00 | 0 
+                <img src="./assets/carrinho.svg" alt="Carrinho">
+            </div>
+        </header>
+
+        <section class="products">
+            <div 
+                class="card-wrapper"
+                v-for="{ id, img, preco, nome } in products"
+                @click="openModal(id)"
+                :key="nome"
+            >
+                <img :src="img" :alt="nome" class="card-image">
+                <div class="card-content">
+                    <div class="card-price">R$ {{ preco }}</div>
+                    <div class="card-name">{{ nome }}</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="popup" :class="{ show: showModal }">
+            <div class="popup-wrapper">
+                <div class="close-button">X</div>
+                <img src="" alt="">
+                <div class="popup-content">
+                    <div class="popup-price">R2 2999</div>
+                    <div class="popup-name">Notebook</div>
+                    <div class="popup-description">Descicao breve</div>
+                    <div class="popup-add-to-cart">Adicionar Item</div>
+                    <div class="popup-reviews">
+                        Reviews ...
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="./app.js"></script>
+</body>
+</html>
