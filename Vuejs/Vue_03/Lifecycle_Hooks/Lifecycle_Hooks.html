@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body style="height: 200vh;">
+    <div id="app">
+        <!-- São todos os Hooks do Vue, que vão ser executados a medida que o componente é gerado!
+        São eles: beforeCreate, created, beforeMount, mounted, beforeUpdate, updated, beforeDestroy, destroyed -->
+        <div :style="{backgroundColor: bgColor}">
+            {{charClasses}}
+        </div>
+        <div>
+            <button @click="changeBgColor">Mudar cor fundo</button>
+            <button @click="destroy">Destruir</button>
+        </div>
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                charClasses: [],
+                bgColor: "#fff"
+            },
+            methods: {
+               fetchAPI () {
+                fetch('https://www.dnd5eapi.co/api/classes/')
+                    .then( res => res.json() )
+                    .then( json => {
+                        this.charClasses = json.results
+                    } )
+               },
+               changeBgColor () {
+                this.bgColor = "#333"
+               },
+               destroy () {
+                this.$destroy()
+               }
+            },
+            beforeCreate () {
+                console.log('beforeCreate', 'Ainda não gerou nada!', this.$el)
+            },
+            created () {
+                console.log('created', 'Agora gerou os dados da instância Vue', this.$el)
+                this.fetchAPI()
+            },
+            beforeMount () {
+                console.log('beforeMount', 'Agora criou o componente', this.$el)
+            },
+            mounted () {
+                console.log('mounted', 'Agora criou a DOM reativa do componente', this.$el)
+            },
+            beforeUpdate () {
+                console.log('beforeUpdate', 'Vai executar antes que algum dado reativo do componente mudar')
+            },
+            updated () {
+                console.log('uptaded', 'Vai executar assim que algum dado reativo do componente mudar')
+            },
+            beforeDestroy () {
+                console.log('beforeDestroy', 'Vai executar antes de destruir o componente')
+            },
+            destroyed () {
+                console.log('destroyed', 'Vai executar após de destruir o componente')
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <!-- Utilize a api do github para
+        mostrar todos os seus dados na tela.
+        Faça o fetch das informações utilizando
+        um dos hooks do vue:
+
+        https://www.dnd5eapi.co/api/classes/
+        -->
+        <section>
+            <header>
+                <h1>Classes</h1>
+            </header>
+            <div v-for="({ index, name }, key) in charClasses" :key="key">
+                {{index}} := {{name}}
+            </div>
+        </section>
+        
+        <!-- 
+            Crie um contador, onde seja possível clicar em
+            um botão e adicionar +1 ao número.
+
+            Toda vez que o contador mudar, mude o título da página
+            para o total do contador. Utilize um hook para isso
+        -->
+
+        <section>
+            <header>
+                <h1>Contador</h1>
+            </header>
+            <div>
+                <button @click="num++">Add {{num}}</button>
+                
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                charClasses: [],
+                num: 0
+            },
+            methods: {
+                fetchAPI () {
+                    fetch('https://www.dnd5eapi.co/api/classes/')
+                    .then( res => res.json() )
+                    .then( json => {
+                        this.charClasses = json.results
+                    } )
+                }
+            },
+            created () {
+                this.fetchAPI()
+            },
+            updated () {
+                document.title = this.num
+            }
+        })
+    </script>
+</body>
+</html>

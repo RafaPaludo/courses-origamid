@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body style="height: 200vh;">
+    <div id="app">
+        <!-- Podemos adicionar eventos em elementos, usando o v-on / @. Como @click; @keyp; @keydown ... -->
+        <input type="text" @keyup="active">
+
+        <input type="text" @click.alt="active">
+
+        <!-- Para criar eventos fora de instâncias Vue, é necessário adicionar diretamente a window / document / etc. Podemos colocar dentro dos Hooks: created / beforeCreated, etc. -->
+        <span style="position: fixed;">
+            Scroll Total: {{totalScroll}}
+        </span>
+    </div>
+    <script>
+        const color = "background: #4fc08d; color: #141414; font-size: 16px;";
+        
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                totalScroll: 0
+            },
+            methods: {
+                active (e) {
+                    console.log(e)
+                },
+                scrollValue (e) {
+                    this.totalScroll = window.scrollY
+                }
+            },
+            created () {
+                window.addEventListener('scroll', this.scrollValue)
+            }
+        })
+    </script>
+</body>
+</html>
