@@ -21,6 +21,9 @@ const vm = new Vue({
         openModal(id) {
             this.fetchFullProduct(id)
             this.showModal = true
+        },
+        closeModal() {
+            this.showModal = false
         }
     },
     created () {

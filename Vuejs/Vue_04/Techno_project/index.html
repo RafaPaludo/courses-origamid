@@ -36,17 +36,31 @@
             </div>
         </section>
 
-        <section class="popup" :class="{ show: showModal }">
+        <section 
+            class="popup"
+            :class="{ show: showModal }"
+            v-if="selectedProduct"
+        >
             <div class="popup-wrapper">
-                <div class="close-button">X</div>
-                <img src="" alt="">
+                <div class="close-button" @click="closeModal">X</div>
+                <img :src="selectedProduct.img" :alt="selectedProduct.nome" class="popup-image">
                 <div class="popup-content">
-                    <div class="popup-price">R2 2999</div>
-                    <div class="popup-name">Notebook</div>
-                    <div class="popup-description">Descicao breve</div>
+                    <div class="popup-price">{{ selectedProduct.preco }}</div>
+                    <div class="popup-name">{{ selectedProduct.nome }}</div>
+                    <div class="popup-description">{{ selectedProduct.descricao }}</div>
                     <div class="popup-add-to-cart">Adicionar Item</div>
-                    <div class="popup-reviews">
-                        Reviews ...
+                    <div 
+                        class="reviews-wrapper"
+                    >
+                        <h3 class="reviews-title">Reviews</h3>
+                        <div
+                            v-for="{ nome, estrelas, descricao } in selectedProduct.reviews" 
+                            class="popup-review"
+                        >
+                            <div class="popup-reviews-descricao">{{descricao}}</div>
+                            <span class="popup-reviews-name">{{nome}}</span> |
+                            <span class="popup-reviews-stars">{{estrelas}} estrelas</span>
+                        </div>
                     </div>
                 </div>
             </div>

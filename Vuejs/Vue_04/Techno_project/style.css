@@ -6,15 +6,27 @@
     box-sizing: border-box;
 }
 
+:root {
+    --black: #000;
+    --white: #fff;
+    --gray-dark: #111;
+    --gray-normal: #222;
+    --gray-light: #777;
+    --gray-lighter: #cdcdcd;
+}
+
 body {
     background: linear-gradient(270deg, rgba(255,255,255,1) 70%, rgba(34,34,34,1) 70%, rgba(34,34,34,1) 96%);
     font-family: 'Lexend', sans-serif;
     position: relative;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 #app {
     max-width: 900px;
     margin: 0 auto;
+    padding-bottom: 5rem;
 }
 
 header {
@@ -26,7 +38,7 @@ header {
 
 .logo {
     font-size: 1.5rem;
-    color: #fff;
+    color: var(--white);
 }
 
 .products {
@@ -62,30 +74,36 @@ header {
 }
 
 .card-price {
-    color: #777;
+    color: var(--gray-light);
     font-size: 1.5rem;
     font-weight: lighter;
 }
 
 .card-name {
-    color: #111;
+    color: var(--gray-dark);
     font-size: 3rem;
     font-weight: bold;
 }
 
 .popup {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, .3);
-    padding: 2rem;
-    height: 100vh;
+    padding: 4rem 0;
+    height: 100%;
 }
 
 .popup-wrapper {
-    background-color: #fff;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: linear-gradient(270deg, rgba(255,255,255,1) 78%, rgba(34,34,34,0) 78%, rgba(0,0,0,0) 90%);
+    position: relative;
+    padding: 4rem 0;
+    display: flex;
+    gap: 4rem;
 }
 
 .popup {
@@ -94,4 +112,68 @@ header {
 
 .show {
     display: block;
+}
+
+.close-button {
+    cursor: pointer;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--white);
+    padding: 0.75rem;
+    border-radius: 100%;
+    border: 2px solid;
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.popup-image {
+    max-width: 30%;
+    box-shadow: 2px 1px 9px 1px rgba(0, 0, 0, 15%);
+    height: fit-content;
+}
+
+.popup-content {
+    padding: 12rem 4rem 0 0;
+}
+
+.popup-price {
+    color: var(--gray-light);
+    font-size: 1.5rem;
+    font-weight: lighter;
+}
+
+.popup-name {
+    color: var(--gray-dark);
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.popup-add-to-cart {
+    cursor: pointer;
+    background: var(--gray-dark);
+    padding: 1rem;
+    display: inline-block;
+    color: #fff;
+    margin: 5rem 0;
+}
+
+.reviews-title {
+    font-size: 1.5rem;
+}
+
+.popup-review {
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--gray-lighter);
+}
+
+.popup-reviews-descricao {
+    color: var(--gray-light);
+}
+.popup-reviews-name,
+.popup-reviews-stars {
+    font-weight: bold;
 }
