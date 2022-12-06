@@ -15,7 +15,7 @@
                 {{store}}
             </div>
 
-            <div class="cart">
+            <div class="cart" @click="openCartModal">
                 R$ 0,00 | 0 
                 <img src="./assets/carrinho.svg" alt="Carrinho">
             </div>
@@ -48,7 +48,12 @@
                     <div class="popup-price">{{ selectedProduct.preco }}</div>
                     <div class="popup-name">{{ selectedProduct.nome }}</div>
                     <div class="popup-description">{{ selectedProduct.descricao }}</div>
-                    <div class="popup-add-to-cart">Adicionar Item</div>
+                    <div 
+                        class="popup-add-to-cart"
+                        @click="addProductToCart"
+                    >
+                        Adicionar Item
+                    </div>
                     <div 
                         class="reviews-wrapper"
                     >
@@ -64,6 +69,30 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <section
+            class="popup-cart"
+            v-if="cartModalOpen"
+        >
+        <div class="popup-wrapper-cart">
+            <div class="close-button" @click="closeCartModal">X</div>
+            <h3 class="popup-cart-title">Carrinho</h3>
+            <div class="popup-cart-products">
+                <div class="popup-cart-product">Produto</div>
+                <div class="popup-cart-product">Produto</div>
+                <div class="popup-cart-product">Produto</div>
+                <div class="popup-cart-total">Total</div>
+            </div>
+            <div class="popup-cart-button" @click="finish">Finalizar compra</div>
+        </div>
+        </section>
+
+        <section
+            class="modal-cart"
+            :class="{ 'product-added': productAdded }"
+        >
+            {{ selectedProduct.nome }} adicionado ao carrinho.
         </section>
     </div>
     <script src="./app.js"></script>
