@@ -2,13 +2,14 @@ const vm = new Vue({
     el: '#app',
     data: {
         store: 'Techno',
-        message: 'Hello World',
         products: [],
-        selectedProduct: {},
+        selectedProducts: [],
+        actualProduct: {},
         showModal: false,
         productAdded: false,
-        stockControl: [],
+        cartControl: [],
         cart: [],
+        cartTotal: 0,
         cartModalOpen: false
     },
     methods: {
@@ -20,10 +21,20 @@ const vm = new Vue({
         fetchFullProduct (id) {
             fetch(`./api/produtos/${id}/dados.json`)
                 .then( r => r.json() )
-                .then( r => this.selectedProduct = r )
+                .then( r => {
+                    this.actualProduct = r 
+                    this.selectedProducts.push(r)
+                })
         },
         openModal(id) {
-            this.fetchFullProduct(id)
+            const fetchedProduct = this.selectedProducts.find( product => product.id === id )
+            
+            if(fetchedProduct && fetchedProduct.length){
+                this.actualProduct = fetchedProduct
+            } else {
+                this.fetchFullProduct(id)
+            }
+
             this.showModal = true
         },
         closeModal() {
@@ -42,23 +53,26 @@ const vm = new Vue({
         finish () {
             window.alert('Finalizado')
         },
-        addProductToCart () {
-            const { id, nome, preco, estoque } = this.selectedProduct
-            const hasStock = this.checkStock(id, estoque)
-            this.cart.push({ id, nome, preco, estoque })
-            this.stockControl.push({ id, nome, preco, estoque })
-            console.log(this.cart)
-        },
-        checkStock (id, estoque) {
-            const stock = this.stockControl.filter( prod => prod.id === this.selectedProduct.id)
-            if(stock){
-                this.stockControl--
-                return true
+        addProductToCart (id) {
+            const product = this.selectedProducts.find( product => product.id === id )
+
+            if(product.estoque) {
+                product.estoque--
             }
-            console.log(stock)
+            this.addToCart(product)
         },
+        addToCart(product) {
+            this.cartControl.push(product)
+        }
     },
     created () {
         this.fetchProducts()
+    },
+    watch: {
+        cartControl(totalProducts) {
+            this.cartTotal = totalProducts.reduce( (accumulator, currentProduct) => {
+                return accumulator +  currentProduct.preco
+            }, 0 )
+        }
     }
 })

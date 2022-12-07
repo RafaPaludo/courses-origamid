@@ -162,6 +162,12 @@ header {
     margin: 5rem 0;
 }
 
+.popup-add-to-cart.disabled {
+    cursor: not-allowed;
+    background-color: var(--gray-light);
+    pointer-events: none;
+}
+
 .reviews-title {
     font-size: 1.5rem;
 }
@@ -236,8 +242,25 @@ header {
 
 .popup-cart-product {
     border-bottom: 1px solid var(--gray-lighter);
-    padding-bottom: 1rem;
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem 1rem;
+}
+
+.popup-cart-product-content {
+    display: flex;
+    gap: 1rem;
+}
+
+.popup-cart-product-remove {
+    cursor: pointer;
+}
+
+.popup-cart-total {
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .popup-cart-button {

@@ -39,18 +39,19 @@
         <section 
             class="popup"
             :class="{ show: showModal }"
-            v-if="selectedProduct"
+            v-if="actualProduct"
         >
             <div class="popup-wrapper">
                 <div class="close-button" @click="closeModal">X</div>
-                <img :src="selectedProduct.img" :alt="selectedProduct.nome" class="popup-image">
+                <img :src="actualProduct.img" :alt="actualProduct.nome" class="popup-image">
                 <div class="popup-content">
-                    <div class="popup-price">{{ selectedProduct.preco }}</div>
-                    <div class="popup-name">{{ selectedProduct.nome }}</div>
-                    <div class="popup-description">{{ selectedProduct.descricao }}</div>
+                    <div class="popup-price">{{ actualProduct.preco }}</div>
+                    <div class="popup-name">{{ actualProduct.nome }}</div>
+                    <div class="popup-description">{{ actualProduct.descricao }}</div>
                     <div 
                         class="popup-add-to-cart"
-                        @click="addProductToCart"
+                        :class="{ disabled: !actualProduct.estoque }"
+                        @click="addProductToCart(actualProduct.id)"
                     >
                         Adicionar Item
                     </div>
@@ -59,7 +60,7 @@
                     >
                         <h3 class="reviews-title">Reviews</h3>
                         <div
-                            v-for="{ nome, estrelas, descricao } in selectedProduct.reviews" 
+                            v-for="{ nome, estrelas, descricao } in actualProduct.reviews" 
                             class="popup-review"
                         >
                             <div class="popup-reviews-descricao">{{descricao}}</div>
@@ -75,24 +76,35 @@
             class="popup-cart"
             v-if="cartModalOpen"
         >
-        <div class="popup-wrapper-cart">
-            <div class="close-button" @click="closeCartModal">X</div>
-            <h3 class="popup-cart-title">Carrinho</h3>
-            <div class="popup-cart-products">
-                <div class="popup-cart-product">Produto</div>
-                <div class="popup-cart-product">Produto</div>
-                <div class="popup-cart-product">Produto</div>
-                <div class="popup-cart-total">Total</div>
+            <div class="popup-wrapper-cart">
+                <div class="close-button" @click="closeCartModal">X</div>
+                <h3 class="popup-cart-title">Carrinho</h3>
+                <div class="popup-cart-products">
+                    <div
+                        class="popup-cart-product"
+                        v-for="{ nome, preco } in cartControl"    
+                    >
+                        
+                        <div>{{nome}}</div>
+                        <div class="popup-cart-product-content">
+                            <div class="popup-cart-product-price">{{preco}}</div>
+                            <div class="popup-cart-product-remove">X</div>
+                        </div>
+                    </div>
+                    <div class="popup-cart-total">
+                        <div>Total</div>
+                        <div>{{cartTotal}}</div>
+                    </div>
+                </div>
+                <div class="popup-cart-button" @click="finish">Finalizar compra</div>
             </div>
-            <div class="popup-cart-button" @click="finish">Finalizar compra</div>
-        </div>
         </section>
 
         <section
             class="modal-cart"
             :class="{ 'product-added': productAdded }"
         >
-            {{ selectedProduct.nome }} adicionado ao carrinho.
+            {{ actualProduct.nome }} adicionado ao carrinho.
         </section>
     </div>
     <script src="./app.js"></script>
