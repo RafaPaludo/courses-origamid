@@ -12,11 +12,11 @@
     <div id="app">
         <header>
             <div class="logo">
-                {{store}}
+                <img src="./assets/techno.svg" :alt="store">
             </div>
 
             <div class="cart" @click="openCartModal">
-                R$ 0,00 | 0 
+                {{ cartTotal | numtoToCurrency }} | {{cartControl.length}}
                 <img src="./assets/carrinho.svg" alt="Carrinho">
             </div>
         </header>
@@ -30,7 +30,7 @@
             >
                 <img :src="img" :alt="nome" class="card-image">
                 <div class="card-content">
-                    <div class="card-price">R$ {{ preco }}</div>
+                    <div class="card-price">{{ preco | numtoToCurrency  }}</div>
                     <div class="card-name">{{ nome }}</div>
                 </div>
             </div>
@@ -40,12 +40,13 @@
             class="popup"
             :class="{ show: showModal }"
             v-if="actualProduct"
+            @click="closeModal"
         >
             <div class="popup-wrapper">
                 <div class="close-button" @click="closeModal">X</div>
                 <img :src="actualProduct.img" :alt="actualProduct.nome" class="popup-image">
                 <div class="popup-content">
-                    <div class="popup-price">{{ actualProduct.preco }}</div>
+                    <div class="popup-price">{{ actualProduct.preco | numtoToCurrency }}</div>
                     <div class="popup-name">{{ actualProduct.nome }}</div>
                     <div class="popup-description">{{ actualProduct.descricao }}</div>
                     <div 
@@ -82,18 +83,21 @@
                 <div class="popup-cart-products">
                     <div
                         class="popup-cart-product"
-                        v-for="{ nome, preco } in cartControl"    
+                        v-for="{ nome, preco, id } in cartControl"    
                     >
                         
                         <div>{{nome}}</div>
                         <div class="popup-cart-product-content">
-                            <div class="popup-cart-product-price">{{preco}}</div>
-                            <div class="popup-cart-product-remove">X</div>
+                            <div class="popup-cart-product-price">{{preco  | numtoToCurrency }}</div>
+                            <div
+                                class="popup-cart-product-remove"
+                                @click="removeToCart(id)"
+                            >X</div>
                         </div>
                     </div>
                     <div class="popup-cart-total">
                         <div>Total</div>
-                        <div>{{cartTotal}}</div>
+                        <div>{{cartTotal | numtoToCurrency }}</div>
                     </div>
                 </div>
                 <div class="popup-cart-button" @click="finish">Finalizar compra</div>

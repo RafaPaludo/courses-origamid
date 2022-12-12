@@ -8,9 +8,15 @@ const vm = new Vue({
         showModal: false,
         productAdded: false,
         cartControl: [],
-        cart: [],
-        cartTotal: 0,
         cartModalOpen: false
+    },
+    filters: {
+        numtoToCurrency(price) {
+            if(!price) {
+                price = 0
+            }
+            return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'} )
+        }
     },
     methods: {
         fetchProducts () {
@@ -29,15 +35,21 @@ const vm = new Vue({
         openModal(id) {
             const fetchedProduct = this.selectedProducts.find( product => product.id === id )
             
-            if(fetchedProduct && fetchedProduct.length){
+            if(fetchedProduct){
                 this.actualProduct = fetchedProduct
             } else {
                 this.fetchFullProduct(id)
             }
 
             this.showModal = true
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            })
         },
-        closeModal() {
+        closeModal({target, currentTarget}) {
+            if(target !== currentTarget) return
+
             this.showModal = false
         }, 
         showModalCartAdded () {
@@ -63,16 +75,31 @@ const vm = new Vue({
         },
         addToCart(product) {
             this.cartControl.push(product)
+
+            this.productAdded = true
+
+            setTimeout( () => {
+                this.productAdded = false
+            }, 1500)
+        },
+        removeToCart(id) {
+            const idxItemToRemove = this.cartControl.findIndex( item => item.id === id )
+            const product = this.selectedProducts.find( product => product.id === id )
+            
+            product.estoque++
+            this.cartControl.splice(idxItemToRemove, 1)
         }
     },
     created () {
         this.fetchProducts()
     },
-    watch: {
-        cartControl(totalProducts) {
-            this.cartTotal = totalProducts.reduce( (accumulator, currentProduct) => {
+    computed: {
+        cartTotal() {
+            const total = this.cartControl.reduce( (accumulator, currentProduct) => {
                 return accumulator +  currentProduct.preco
             }, 0 )
+
+            return total || 0
         }
     }
 })
