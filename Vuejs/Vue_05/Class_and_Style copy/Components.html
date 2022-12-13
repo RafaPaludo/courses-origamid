@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <fieldset>
+            <h4>Componente Global</h4>
+            <botao-contador></botao-contador>
+        </fieldset>
+        <br>
+        <fieldset>
+            <h4>Componente Local</h4>
+            <local-component></local-component>
+        </fieldset>
+        <br>
+        <fieldset>
+            <h4>Outro Componente Local</h4>
+            <another-local-component></another-local-component>
+        </fieldset>
+    </div>
+    <script>
+        /* 
+            Aqui definimos um componente globalmente, que pode ser usado por qualquer instância do Vue.
+            Recebe 2 parâmetros: 
+             - Nome do componente, kebab-case ou PascalCase;
+             - Objeto com as informações, data, watch, computed, created, mounted, methods, filters ... e o template html dele.
+        */
+        Vue.component('BotaoContador', {
+            data () {
+                return {
+                    message: 'Hello World!'
+                }
+            },
+            template: `<button @click="changeBGColor">Change BG Color</button>`,
+            methods: {
+                changeBGColor () {
+                    return window.document.body.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                }
+            }
+        })
+        
+        /* 
+            Aqui definimos um componente local, ele deve conter pelo menos, name e template.
+            A partir disso devemos adicioná-lo a uma instância Vue e podemos usar o componente somente dentro da instância.  
+        */
+        const LocalComponent = {
+            name: "LocalComponent",
+            template: `<input type="text" placeholder="Escreva algo" />`
+        }
+
+        const AnotherLocalComponent = {
+            name: "LocalComponent",
+            template: `<input type="email" placeholder="Digite seu e-mail" />`
+        }
+
+        const vm = new Vue({
+            el: "#app",
+            components: {
+                LocalComponent,
+                AnotherLocalComponent
+            }
+        })
+    </script>
+</body>
+</html>
