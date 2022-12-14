@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap');
+
+*, *::after, *::before {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.card_wrapper {
+    border: 1px solid #C6CBE1;
+    border-radius: 3px;
+    width: 150px;
+    padding: 8px;
+    margin: 0 auto;
+    background: #242a51;
+    box-shadow: 0px 4px 20px -3px #4a4756;
+    cursor: pointer;
+}
+
+.card_wrapper:hover {
+    animation: shake .5s forwards;
+}
+
+@keyframes shake {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    6.5% {
+        -webkit-transform: translateX(-6px) rotateY(-9deg);
+        transform: translateX(-6px) rotateY(-9deg);
+    }
+    18.5% {
+        -webkit-transform: translateX(5px) rotateY(7deg);
+        transform: translateX(5px) rotateY(7deg);
+    }
+    31.5% {
+        -webkit-transform: translateX(-3px) rotateY(-5deg);
+        transform: translateX(-3px) rotateY(-5deg);
+    }
+    43.5% {
+        -webkit-transform: translateX(2px) rotateY(3deg);
+        transform: translateX(2px) rotateY(3deg);
+    }
+    50% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+.card_name {
+    text-transform: capitalize;
+    font-weight: 700;
+    background: #e7e7e7;
+    padding: 8px;
+    width: 90%;
+    border-radius: 0 20px 20px 0;
+}
+
+.card_img {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.card_img:hover .card_img_front {
+    opacity: 0;
+}
+
+.card_img:hover .card_img_back {
+    opacity: 1;
+}
+
+.card_img_front {
+    transition: all .2s ease-out;
+}
+
+.card_img_back {
+    position: absolute;
+    opacity: 0;
+    transition: all .2s ease-out;
+}
+
+.card_types {
+    display: flex;
+    gap: 5px;
+}
+
+.card_type {
+    background-color: #e7e7e7;
+    border-radius: 20px;
+    padding: 4px;
+    box-shadow: 0px 4px 20px -3px #4a4756;
+}
+
+.card_type {
+    flex-basis: 50%;
+    text-align: center;
+}
