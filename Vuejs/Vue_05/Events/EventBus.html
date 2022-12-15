@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="./assets/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <component-one :dots="dots" ></component-one>
+        <component-two :dots="dots" ></component-two>
+    </div>
+    <script>
+        
+        const ComponentOne = {
+            name: "ComponentOne",
+            template: 
+                `<div
+                    class="component"
+                    @click="onClick"
+                >
+                    ComponentOne
+                    <div
+                        class="dots_wrapper"
+                    >
+                        <span
+                            v-for="dot in dots"
+                        >0</span>
+                    </div>
+                </div>
+                `,
+            props: {
+                dots: Array
+            },
+            methods: {
+                onClick () {
+                    EventBus.$emit('mouse:enter', this.dots)
+                }
+            }
+        }
+
+        const ComponentTwo = {
+            name: "ComponentTwo",
+            template: 
+                `<div
+                    class="component"
+                    @click="onClick"
+                >
+                    ComponentTwo
+                    <div
+                        class="dots_wrapper"
+                    >
+                        <span
+                            v-for="dot in dots"
+                        >0</span>
+                    </div>
+                </div>
+                `,
+            props: {
+                dots: Array
+            },
+            methods: {
+                onClick () {
+                    EventBus.$emit('mouse:enter', this.dots)
+                }
+            }
+        }
+
+        /* 
+            Um EventBus é uma nova instância Vue que recebe props de um componente e pode levar para os demais.
+            Basta instanciar, e emitir eventos e captá-los através do $on('evento', callback)
+            EventBus.$emit('meuEvento', msg) -> EventBus.$on('evento', (msg) = > { return msg } )
+        */
+        const EventBus = new Vue({})
+
+        EventBus.$on("mouse:enter", (event) => {
+            event.push(1)
+        })
+        
+        const vm = new Vue({
+            el: "#app",
+            data () {
+                return {
+                   dots: [0]
+                }
+            },
+            components: {
+                ComponentOne,
+                ComponentTwo
+            }
+        })
+    </script>
+</body>
+</html>

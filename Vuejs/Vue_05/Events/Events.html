@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="./assets/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 
+            Um evento é composto inicialmente por uma função, com a sintaxe::
+                this.$emit('nomeEvento', mensagem)
+            
+            Ao ser emitido, o evento será disparado, levando o valor da mensagem consigo.
+            Para ver a mensagem basta adicionar uma função de callback ao executar nomeEvento::
+                @nomeEvento="callback"
+                callback (mensagem) { return mensagem }
+            O callback terá a mensagem enviada!
+
+            this.$emit('evento', msg) -> @evento="callback" -> callback(msg) { return msg }
+         -->
+        <main >
+            <product-card v-for="product in products"
+                :product="product"
+                :key="product.name"
+                @update:product="addToCart"
+            ></product-card>
+        </main>
+        <shop-cart
+            :products-total="productsTotal"
+            :price-total="priceTotal"
+        ></shop-cart>
+    </div>
+    <script type="module">
+        const ProductCard = {
+            name: 'ProductCard',
+            template: 
+                `<section class="product_card">
+                    <img :src="product.image" class="product_img" />
+                    <div class="product_content">
+                        <h3 class="product_name">{{ product.name }}</h3>
+                        <div class="product_oldPrice">De: {{ product.oldPrice | numberToPrice }}</div>
+                        <div class="product_price">Por: {{ product.price | numberToPrice }}</div>
+                        <button class="product_add" :class="{ disabled: !product.stock }" @click="addToCart">+</button>
+                    </div>
+                </section>`,
+            props: {
+                product: Object
+            },
+            methods: {
+                addToCart () {
+                    this.$emit('update:product', this.product)
+                }
+            },
+            filters: {
+                numberToPrice (price) {
+                    return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'} )
+                }
+            }
+        }
+
+        const ShopCart = {
+            name: "ShopCart",
+            template: 
+                `<section class="cart">
+                    <h3>Carrinho</h3>
+                    <div>
+                        Total: {{ priceTotal | numberToPrice }} | {{ productsTotal }}
+                    </div>
+                    
+                </section>`,
+            props: {
+                productsTotal: Number,
+                priceTotal: Number
+            },
+            filters: {
+                numberToPrice (price) {
+                    return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'} )
+                }
+            }
+        }
+
+        const vm = new Vue({
+            el: "#app",
+            components: {
+                ShopCart,
+                ProductCard
+            },
+            data () {
+                return {
+                    products: [
+                        {
+                            name: 'Tênis Véri Bonito',
+                            image: './assets/tenis.webp',
+                            oldPrice: 210,
+                            price: 170,
+                            stock: 3
+                        },
+                        {
+                            name: 'Camiseta Estilosa',
+                            image: './assets/camisa.webp',
+                            oldPrice: 100,
+                            price: 79,
+                            stock: 6
+                        }
+                    ],
+                    productsTotal: 0,
+                    priceTotal: 0
+                }
+            },
+            methods: {
+                addToCart (product) {
+                    if(product.stock) {
+                        product.stock--
+                        this.productsTotal++
+                        this.priceTotal += product.price
+                    }
+                },
+                hasStock () {
+                    return 
+                }
+            }
+        })
+    </script>
+</body>
+</html>
