@@ -43,4 +43,9 @@ nav {
   color: #fff;
 }
 
+ul {
+  display: flex;
+  gap: 20px;
+}
+
 </style>
