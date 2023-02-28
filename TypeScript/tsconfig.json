@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Config mais atual possível
+    "strict": true // Modo estrito do JS
+  }
+}
