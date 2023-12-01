@@ -35,3 +35,30 @@ const p2: any =  "John, 22"
 printPerson(p1) // Correto!
 printPerson(p2) // TS não avisa do erro, mas ainda vai quebrar o código
 
+
+/*
+ * Variáveis que possam conter null e undefined precisam de uma verificação para serem executadas. Usar IF ou o operador '?'
+*/
+
+let button = document.querySelector('button')
+
+if (button) {
+    console.log(button)
+}
+
+button?.click()
+
+/*
+ * Esse operador é muito útil na criação de Objetos com propriedades opcionais
+*/
+
+interface Vehicle {
+    name: string,
+    wheels?: number,
+    doors?: number
+}
+
+const bike: Vehicle = { name: 'Caloi' }
+console.log(bike.name)
+console.log(bike.wheels?.toFixed()) // Uso do ? pois wheels pode ser number | undefined
+console.log(bike.doors?.toString())  // Uso do ? pois doors pode ser number | undefined
