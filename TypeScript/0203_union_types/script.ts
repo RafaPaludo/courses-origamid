@@ -21,7 +21,7 @@ console.log(typeof str)
 console.log(typeof letra)
 console.log(typeof l)
 
-// Usando o typeof para tipos primitos, garante que é um tipo real
+// Usando o typeof para tipos primitivos, garante que é um tipo real
 if(typeof letra === 'string') {
     console.log('É uma string!')
 } else {
